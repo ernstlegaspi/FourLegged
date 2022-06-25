@@ -4,34 +4,17 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { getAnimals } from '../../actions/actions'
 import './css/home.css'
-// import raw from './animals.txt';
 
 const Home = () => {
 	const [defaultChoice, setDefaultChoice] = useState(true)
 	const [showAllButton, setShowAllButton] = useState(false)
+	const [byLetter, setByLetter] = useState(false)
+	const [byLetterContinue, setByLetterContinue] = useState(false)
+	const [byLetterValue, setByLetterValue] = useState("")
 	const [showAll, setShowAll] = useState(false)
 	const animals = useSelector(animal => animal.animals.animals)
 	const heightCounter = useRef(61)
 	const dispatch = useDispatch()
-	// const [getAnimals, setAnimals] = useState()
-	// const [getAnimal, setAnimal] = useState()
-	
-	// useEffect(() => {
-	// 	fetch(raw)
-	// 		.then(res => res.text())
-	// 		.then(data => {
-	// 			setAnimals(data.toLowerCase())
-	// 		})
-	// 		.catch(e => console.log(e))
-	// })
-	
-	// const handleClick = () => {
-	// 	const tf = document.getElementById(`textfield`)
-	// 	const image = document.getElementById(`image`)
-		
-	// 	if(getAnimals.includes(tf.value)) {
-	// 	}
-	// }
 
 	useEffect(() => {
 		dispatch(getAnimals())
@@ -40,18 +23,38 @@ const Home = () => {
 	useEffect(() => {
 		const form = document.getElementById(`home-form`)
 		
-		if(showAll) {
+		if(showAll || byLetterContinue) {
 			let a = setInterval(() => {
 				form.style.height = `${heightCounter.current}px`
 				if(heightCounter.current <= 600) heightCounter.current += 10
 				else clearInterval(a)
 			}, 1)
 		}
-	}, [showAll, heightCounter])
+	}, [showAll, byLetterContinue, heightCounter])
 
 	const handleDefaultChoice = () => {
 		setShowAllButton(true)
 		setDefaultChoice(false)
+	}
+
+	const handlSetShowAll = () => {
+		setShowAllButton(false)
+		setShowAll(true)
+	}
+
+	const handleByLetterButton = () => {
+		setShowAllButton(false)
+		setByLetter(true)
+	}
+
+	const handleByLetterClick = () => {
+		const letterOnly = new RegExp("^[a-zA-Z]")
+		
+		if(!letterOnly.test(byLetterValue)) alert("Letter Only.")
+		else {
+			setByLetter(false)
+			setByLetterContinue(true)
+		}
 	}
 	
 	const defaultChoices = () => <Grid container spacing={2}>
@@ -63,35 +66,54 @@ const Home = () => {
 		</Grid>
 	</Grid>
 
-	const handlSetShowAll = () => {
-		setShowAllButton(false)
-		setShowAll(true)
-	}
-
-	const secondShowChoices = () => <Grid container spacing={2}>
-		<Grid item xs={6}>
-			<Button onClick={() => handlSetShowAll()} className="home-form-button" fullWidth variant="outlined">Show All Four-Legged Animals</Button>
-		</Grid>
-		<Grid item xs={6}>
-			<Button className="home-form-button" fullWidth variant="outlined">Show animal by first letter</Button>
-		</Grid>
-	</Grid>
-	
 	return(
 		<div className="home">
-			<div id="home-form" style={{ padding: !defaultChoice && !showAllButton ? "0" : "20px", width: !defaultChoice && !showAllButton ? "auto" : "480px" }}>
+			<div id="home-form" style={{ padding: showAll || byLetterContinue ? "0" : "20px", width: showAll || byLetterContinue || byLetter ? "auto" : "480px" }}>
 				{
 					defaultChoice ? <Grow in>{defaultChoices()}</Grow>
 					: showAllButton ? <>
 						<Grow className="none" out="true">{defaultChoices()}</Grow>
-						<Grow in>{secondShowChoices()}</Grow>
-					</>
-					: <>
-						<Grow className="none" out="true">{secondShowChoices()}</Grow>
 						<Grow in>
-							<div className="home-all-animals">{
-								animals ? animals.map(animal => {
-									 return <Grid key={animal._id} className="home-all-animals-container" container>
+							<Grid container spacing={2}>
+								<Grid item xs={6}>
+									<Button onClick={() => handlSetShowAll()} className="home-form-button" fullWidth variant="outlined">Show All Four-Legged Animals</Button>
+								</Grid>
+								<Grid item xs={6}>
+									<Button onClick={() => handleByLetterButton()} className="home-form-button" fullWidth variant="outlined">Show animal by first letter</Button>
+								</Grid>
+							</Grid>
+						</Grow>
+					</>
+					: byLetter ? <Grow in>
+						<Grid container spacing={2}>
+							<Grid item xs={5}>
+								<TextField inputProps={{ maxLength: 1 }} value={byLetterValue} onChange={e => setByLetterValue(e.target.value)} fullWidth label='First Letter' variant="outlined" /> <br />
+							</Grid>
+							<Grid item xs={7}>
+								<Button onClick={() => handleByLetterClick()} fullWidth className="home-by-letter-button home-form-button" variant="outlined">Submit</Button>
+							</Grid>
+						</Grid>
+					</Grow>
+					: byLetterContinue ? <div className="home-all-animals">{
+						animals.filter(animal => animal.name.charAt(0) === byLetterValue).map(animal => {
+							return <Grow in>
+								<Grid key={animal._id} className="home-all-animals-container" container>
+									<Grid className="home-all-animals-container-left" item xs={7}>
+										<p className="home-all-animals-container-left-name">{animal.name}</p>
+										<p className="home-all-animals-container-left-description">{animal.description}</p>
+									</Grid>
+									<Grid className="home-all-animals-container-right" item xs={5}>
+										<img src={animal.image} alt={animal.name} />
+									</Grid>
+								</Grid>
+							</Grow>
+						})
+					}</div>
+					: <>
+						<div className="home-all-animals">{
+							animals ? animals.map(animal => {
+								return <Grow in>
+										<Grid key={animal._id} className="home-all-animals-container" container>
 										<Grid className="home-all-animals-container-left" item xs={7}>
 											<p className="home-all-animals-container-left-name">{animal.name}</p>
 											<p className="home-all-animals-container-left-description">{animal.description}</p>
@@ -100,10 +122,10 @@ const Home = () => {
 											<img src={animal.image} alt={animal.name} />
 										</Grid>
 									</Grid>
-								})
-								: <CircularProgress />
-							}</div>
-						</Grow>
+								</Grow>
+							})
+							: <CircularProgress />
+						}</div>
 					</>
 				}
 			</div>
