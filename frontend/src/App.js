@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './css/global.css'
 
 const Home = lazy(() => import("./components/home/home"))
+const Form = lazy(() => import("./components/form/form"))
 
 const App = () => {
 	return(
@@ -12,6 +13,7 @@ const App = () => {
 				<Suspense fallback={<div />}>
 					<Routes>
 						<Route exact element={<Home />} path="/" />
+						<Route exact element={<Form />} path="/form" />
 					</Routes>
 				</Suspense>
 			</BrowserRouter>

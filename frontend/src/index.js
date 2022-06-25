@@ -7,7 +7,7 @@ import App from './App'
 import animals from './reducers'
 
 const store = configureStore({
-	animals: { animals: animals }
+	reducer: { animals: animals }
 })
 
 ReactDOM.createRoot(document.getElementById(`root`)).render(<Provider store={store}><App /></Provider>)
