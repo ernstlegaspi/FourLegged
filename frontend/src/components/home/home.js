@@ -79,7 +79,7 @@ const Home = () => {
 	
 	return(
 		<div className="home">
-			<div id="home-form">
+			<div id="home-form" style={{ padding: !defaultChoice && !showAllButton ? "0" : "20px", width: !defaultChoice && !showAllButton ? "auto" : "480px" }}>
 				{
 					defaultChoice ? <Grow in>{defaultChoices()}</Grow>
 					: showAllButton ? <>
