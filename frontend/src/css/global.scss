@@ -3,4 +3,31 @@
 .app-max-width {
 	max-width: 1280px;
 	margin: 0 auto;
+	overflow: hidden;
+	background: linear-gradient(to right, #2b5876, #4e4376);
+	height: 100vh;
+}
+
+@font-face {
+	src: url("../fonts/static/WorkSans-Italic.ttf") format("truetype");
+	font-family: italicc;
+	font-display: swap
+}
+
+@font-face {
+	src: url("../fonts/static/WorkSans-Light.ttf") format("truetype");
+	font-family: light;
+	font-display: swap
+}
+
+@font-face {
+	src: url("../fonts/static/WorkSans-Thin.ttf") format("truetype");
+	font-family: thinn;
+	font-display: swap
+}
+
+@font-face {
+	src: url("../fonts/static/WorkSans-Bold.ttf") format("truetype");
+	font-family: boldd;
+	font-display: swap
 }

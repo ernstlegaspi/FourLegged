@@ -1,38 +1,38 @@
-Aardvark
+Aardvark - 1
 Aardvarks
-Alligator
+Alligator - 2
 Alligators
-Alpaca
+Alpaca - 3
 Alpacas
-Anteater
+Anteater - 4
 Anteaters
-Antelope
+Antelope - 5
 Antelopes
-Armadillo
+Armadillo - 6
 Armadillos
-Bear
+Bear - 7
 Bears
-Beaver
+Beaver - 8
 Beavers
-Binturong
+Binturong - 9
 Binturongs
-Bison
+Bison - 10
 Bisons
-Boar
+Boar - 11
 Boars
-Buffalo
+Buffalo - 12
 Buffalos
-Bull
+Bull - 13
 Bulls
-Bunnies
+Bunnies - 14
 Bunny
-Caiman
+Caiman - 15
 Caimans
-Camel
+Camel - 16
 Camels
-Carabao
+Carabao - 17
 Carabaos
-Cat
+Cat - 18
 Cats
 Chameleon
 Chameleons
@@ -82,17 +82,15 @@ Gerbil
 Gerbils
 Giraffe
 Giraffes
-Gnu
 Goat
 Goats
-Guinneapig
-Guinneapigs
+Guinea pig
+Guinea pigs
 Hare
 Hares
 Hart
 Harts
-Hippo
-Hippos
+Hippopotamus
 Hog
 Hogs
 Horse
@@ -123,11 +121,8 @@ Lynx
 Lynxes
 Maned wolf
 Maned wolfs
-Mare
-Mares
 Marmot
 Marmots
-Mice
 Mink
 Minks
 Mole
@@ -137,6 +132,7 @@ Mongooses
 Moose
 Mooses
 Mouse
+Mice
 Muskrat
 Muskrats
 Ocelot
@@ -149,7 +145,6 @@ Panda
 Pandas
 Peccaries
 Peccary
-Peccarys
 Pig
 Pigs
 Platypus
@@ -161,8 +156,6 @@ Raccoon
 Raccoons
 Ram
 Rams
-Rat
-Rats
 Reindeer
 Reindeers
 Rhinoceros
@@ -190,8 +183,6 @@ Turtle
 Turtles
 Warthog
 Warthogs
-White Fur
-White Furs
 Wildebeest
 Wild Boar
 Wild Boars

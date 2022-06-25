@@ -16,5 +16,5 @@ app.use(express.json())
 app.use(`/animals`, Routes)
 
 mongoose.connect(process.env.CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true })
-	.then(() => app.listen(() => console.log(`Server is running in port ${port}`)))
+	.then(() => app.listen(port, () => console.log(`Server is running in port ${port}`)))
 	.catch(e => console.log(`Connection Error: ${e}`))
