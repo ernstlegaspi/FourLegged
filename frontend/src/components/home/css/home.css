@@ -78,6 +78,10 @@
   border-bottom-right-radius: 5px;
 }
 
+.home #home-form .home-by-letter-button {
+  height: 56.3px;
+}
+
 .home #home-form .home-form-submit {
   height: 55px;
 }
