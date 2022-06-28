@@ -22,6 +22,25 @@ export const getAnimal = async (req, res) => {
 	}
 }
 
+export const search = async (req, res) => {
+	try {
+		const { name } = req.body
+		let animal = null
+		let animalCheck = await Model.find()
+		let animalValue = animalCheck.filter(animal => new RegExp(`\\b${animal.name.toLowerCase()}`).test(name.toLowerCase()))
+
+		if(animalValue.length != 0) {
+			animal = await Model.findOne({ name })
+			res.status(200).json(animal)
+		}
+		else res.status(200).json({ message: "Animal not found" })
+	}
+	catch(e) {
+		res.status(400).json({ message: e.message })
+	}
+}
+
+
 export const addAnimal = async (req, res) => {
 	try {
 		const dataBody = req.body
