@@ -1,36 +1,39 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { CircularProgress, Grid, TextField, Button, Grow } from '@material-ui/core'
-import { useDispatch, useSelector } from 'react-redux'
+import {  Grid, TextField, Button, Grow } from '@material-ui/core'
 
-import { getAnimals } from '../../actions/actions'
+import EnterAnimal from './enter_animal/enterAnimal'
+import AllAnimals from './all_animals/allAnimals'
+import SearchAnimal from './search_animal/searchAnimal'
 import './css/home.css'
+import FirstLetter from './first_letter/firstLetter'
 
 const Home = () => {
 	const [defaultChoice, setDefaultChoice] = useState(true)
 	const [showAllButton, setShowAllButton] = useState(false)
 	const [byLetter, setByLetter] = useState(false)
 	const [byLetterContinue, setByLetterContinue] = useState(false)
-	const [byLetterValue, setByLetterValue] = useState("")
 	const [showAll, setShowAll] = useState(false)
-	const animals = useSelector(animal => animal.animals.animals)
+	const [getSearch, setSearch] = useState(false)
+	const [enterSentence, setEnterSentence] = useState(false)
+	const [enterSentenceButton, setEnterSentenceButton] = useState(false)
+	const [search, setHandleSearch] = useState(false)
+	const [searchValue, setSearchValue] = useState("")
+	const [searchButton, setSearchButton] = useState(false)
+	const [enterSentenceValue, setEnterSentenceValue] = useState("")
+	const [byLetterValue, setByLetterValue] = useState("")
 	const heightCounter = useRef(61)
-	const dispatch = useDispatch()
-
-	useEffect(() => {
-		dispatch(getAnimals())
-	}, [dispatch])
 	
 	useEffect(() => {
 		const form = document.getElementById(`home-form`)
 		
-		if(showAll || byLetterContinue) {
+		if(showAll || byLetterContinue || enterSentenceButton) {
 			let a = setInterval(() => {
 				form.style.height = `${heightCounter.current}px`
 				if(heightCounter.current <= 600) heightCounter.current += 10
 				else clearInterval(a)
 			}, 1)
 		}
-	}, [showAll, byLetterContinue, heightCounter])
+	}, [enterSentenceButton, showAll, byLetterContinue, heightCounter])
 
 	const handleDefaultChoice = () => {
 		setShowAllButton(true)
@@ -57,30 +60,49 @@ const Home = () => {
 		}
 	}
 	
+	const handleGetSearch = () => {
+		setDefaultChoice(false)
+		setSearch(true)
+	}
+
+	const handleEnterSentence = () => {
+		setSearch(false)
+		setEnterSentence(true)
+	}
+
+	const handleEnterSentenceButton = () => {
+		setEnterSentenceButton(true)
+		setEnterSentence(false)
+	}
+	
+	const handleSearch = () => {
+		setSearch(false)
+		setHandleSearch(true)
+	}
+
+	const handleSearchButton = () => {
+		setHandleSearch(false)
+		setSearchButton(true)
+	}
+
+	const cButton = (click, name) => <Button onClick={() => click()} className="home-form-button" fullWidth variant="outlined">{name}</Button>
+	
 	const defaultChoices = () => <Grid container spacing={2}>
-		<Grid item xs={6}>
-			<Button onClick={() => handleDefaultChoice()} className="home-form-button" fullWidth variant="outlined">Show All Animals</Button>
-		</Grid>
-		<Grid item xs={6}>
-			<Button className="home-form-button" fullWidth variant="outlined">Enter a Sentence</Button>
-		</Grid>
+		<Grid item xs={6}>{cButton(handleDefaultChoice, "Show All Animals")}</Grid>
+		<Grid item xs={6}>{cButton(handleGetSearch, "Search or Enter")}</Grid>
 	</Grid>
 
 	return(
 		<div className="home">
-			<div id="home-form" style={{ padding: showAll || byLetterContinue ? "0" : "20px", width: showAll || byLetterContinue || byLetter ? "auto" : "480px" }}>
+			<div id="home-form" style={{ padding: searchButton || showAll || enterSentenceButton || byLetterContinue ? "0" : "20px", width: searchButton || enterSentenceButton || showAll || byLetterContinue || byLetter ? "auto" : "480px" }}>
 				{
 					defaultChoice ? <Grow in>{defaultChoices()}</Grow>
 					: showAllButton ? <>
 						<Grow className="none" out="true">{defaultChoices()}</Grow>
 						<Grow in>
 							<Grid container spacing={2}>
-								<Grid item xs={6}>
-									<Button onClick={() => handlSetShowAll()} className="home-form-button" fullWidth variant="outlined">Show All Four-Legged Animals</Button>
-								</Grid>
-								<Grid item xs={6}>
-									<Button onClick={() => handleByLetterButton()} className="home-form-button" fullWidth variant="outlined">Show animal by first letter</Button>
-								</Grid>
+								<Grid item xs={6}>{cButton(handlSetShowAll, "Show All Four-Legged Animals")}</Grid>
+								<Grid item xs={6}>{cButton(handleByLetterButton, "Show animal by first letter")}</Grid>
 							</Grid>
 						</Grow>
 					</>
@@ -94,39 +116,39 @@ const Home = () => {
 							</Grid>
 						</Grid>
 					</Grow>
-					: byLetterContinue ? <div className="home-all-animals">{
-						animals.filter(animal => animal.name.charAt(0) === byLetterValue).map(animal => {
-							return <Grow in>
-								<Grid key={animal._id} className="home-all-animals-container" container>
-									<Grid className="home-all-animals-container-left" item xs={7}>
-										<p className="home-all-animals-container-left-name">{animal.name}</p>
-										<p className="home-all-animals-container-left-description">{animal.description}</p>
-									</Grid>
-									<Grid className="home-all-animals-container-right" item xs={5}>
-										<img src={animal.image} alt={animal.name} />
-									</Grid>
-								</Grid>
-							</Grow>
-						})
-					}</div>
-					: <>
-						<div className="home-all-animals">{
-							animals ? animals.map(animal => {
-								return <Grow in>
-										<Grid key={animal._id} className="home-all-animals-container" container>
-										<Grid className="home-all-animals-container-left" item xs={7}>
-											<p className="home-all-animals-container-left-name">{animal.name}</p>
-											<p className="home-all-animals-container-left-description">{animal.description}</p>
-										</Grid>
-										<Grid className="home-all-animals-container-right" item xs={5}>
-											<img src={animal.image} alt={animal.name} />
-										</Grid>
-									</Grid>
-								</Grow>
-							})
-							: <CircularProgress />
-						}</div>
+					: byLetterContinue ? <div className="home-all-animals"><FirstLetter byLetterValue={byLetterValue} /></div>
+					: getSearch ? <>
+						<Grow className="none" out="true">{defaultChoices()}</Grow>
+						<Grow in>
+							<Grid container spacing={2}>
+								<Grid item xs={6}>{cButton(handleSearch, "Search for an animal")}</Grid>
+								<Grid item xs={6}>{cButton(handleEnterSentence, "Enter a sentence")}</Grid>
+							</Grid>
+						</Grow>
 					</>
+					: search ? <Grow in>
+						<Grid container spacing={2}>
+							<Grid item xs={9}>
+								<TextField value={searchValue} onChange={e => setSearchValue(e.target.value)} fullWidth label='Search for an animal' variant="outlined" /> <br />
+							</Grid>
+							<Grid item xs={3}>
+								<Button onClick={() => handleSearchButton()} fullWidth className="home-by-letter-button home-form-button" variant="outlined">Submit</Button>
+							</Grid>
+						</Grid>
+					</Grow>
+					: searchButton ? <div className="home-all-animals"><SearchAnimal searchValue={searchValue} /></div>
+					: enterSentence ? <Grow in>
+						<Grid container spacing={2}>
+							<Grid item xs={9}>
+								<TextField value={enterSentenceValue} onChange={e => setEnterSentenceValue(e.target.value)} fullWidth label='Enter a Sentence' variant="outlined" /> <br />
+							</Grid>
+							<Grid item xs={3}>
+								<Button onClick={() => handleEnterSentenceButton()} fullWidth className="home-by-letter-button home-form-button" variant="outlined">Submit</Button>
+							</Grid>
+						</Grid>
+					</Grow>
+					: enterSentenceButton ? <EnterAnimal value={enterSentenceValue} />
+					: <div className="home-all-animals"><AllAnimals /></div>
 				}
 			</div>
 		</div>

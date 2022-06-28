@@ -37,7 +37,7 @@ const Form = () => {
 			<Grid className="overflow" item>
 				{
 					animals ? animals.map((animal, index) => {
-						return <p key={animal._id}>{animal.name} {index+1}</p>
+						return <p key={animal._id}>{animal.name}</p>
 					})
 					: null
 				}

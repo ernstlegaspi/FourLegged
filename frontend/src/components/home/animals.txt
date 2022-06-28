@@ -1,38 +1,38 @@
-Aardvark - 1
+Aardvark
 Aardvarks
-Alligator - 2
+Alligator
 Alligators
-Alpaca - 3
+Alpaca
 Alpacas
-Anteater - 4
+Anteater
 Anteaters
-Antelope - 5
+Antelope
 Antelopes
-Armadillo - 6
+Armadillo
 Armadillos
-Bear - 7
+Bear
 Bears
-Beaver - 8
+Beaver
 Beavers
-Binturong - 9
+Binturong
 Binturongs
-Bison - 10
+Bison
 Bisons
-Boar - 11
+Boar
 Boars
-Buffalo - 12
+Buffalo
 Buffalos
-Bull - 13
+Bull
 Bulls
-Bunnies - 14
+Bunnies
 Bunny
-Caiman - 15
+Caiman
 Caimans
-Camel - 16
+Camel
 Camels
-Carabao - 17
+Carabao
 Carabaos
-Cat - 18
+Cat
 Cats
 Chameleon
 Chameleons
