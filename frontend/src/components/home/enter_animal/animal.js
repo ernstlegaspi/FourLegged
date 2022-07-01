@@ -1,5 +1,7 @@
 import React from 'react'
-import { Grid, Grow } from '@material-ui/core'
+import { CircularProgress, Grid, Grow } from '@material-ui/core'
+
+import "./css/enterAnimal.css"
 
 const Animal = ({ animal }) => {
 	return(
@@ -18,7 +20,9 @@ const Animal = ({ animal }) => {
 				</Grow>
 			})
 		}</div>
-		: <p>There is no four-legged animal detected.</p>
+		: <div className="enter-circular">
+			<CircularProgress />
+		</div>
 	)
 }
 

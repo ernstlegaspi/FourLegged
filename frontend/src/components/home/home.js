@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 import {  Grid, TextField, Button, Grow } from '@material-ui/core'
+import { ArrowBack } from '@material-ui/icons'
 
 import EnterAnimal from './enter_animal/enterAnimal'
 import AllAnimals from './all_animals/allAnimals'
@@ -19,6 +20,7 @@ const Home = () => {
 	const [search, setHandleSearch] = useState(false)
 	const [searchValue, setSearchValue] = useState("")
 	const [searchButton, setSearchButton] = useState(false)
+	const [backButtonClicked, setBackButtonClicked] = useState(false)
 	const [enterSentenceValue, setEnterSentenceValue] = useState("")
 	const [byLetterValue, setByLetterValue] = useState("")
 	const heightCounter = useRef(61)
@@ -33,7 +35,24 @@ const Home = () => {
 				else clearInterval(a)
 			}, 1)
 		}
-	}, [enterSentenceButton, showAll, byLetterContinue, heightCounter])
+		else {
+			if(defaultChoice) {
+				form.style.height = `auto`
+			}
+			else {
+				if(backButtonClicked && (!showAll || !byLetterContinue || !enterSentenceButton)) {
+					let a = setInterval(() => {
+						form.style.height = `${heightCounter.current}px`
+						if(heightCounter.current >= 70) heightCounter.current -= 10
+						else {
+							clearInterval(a)
+							form.style.height = `auto`
+						}
+					}, 1)
+				}
+			}
+		}
+	}, [defaultChoice, backButtonClicked, enterSentenceButton, showAll, byLetterContinue, heightCounter])
 
 	const handleDefaultChoice = () => {
 		setShowAllButton(true)
@@ -92,8 +111,56 @@ const Home = () => {
 		<Grid item xs={6}>{cButton(handleGetSearch, "Search or Enter")}</Grid>
 	</Grid>
 
+	const backButton = () => {
+		if(showAllButton) {
+			setDefaultChoice(true)
+			setShowAllButton(false)
+			setBackButtonClicked(false)
+		}
+		else if(byLetter) {
+			setByLetter(false)
+			setShowAllButton(true)
+		}
+		else if(byLetterContinue) {
+			setByLetter(true)
+			setBackButtonClicked(true)
+			setByLetterContinue(false)
+		}
+		else if(getSearch) {
+			setDefaultChoice(true)
+			setSearch(false)
+		}
+		else if(search) {
+			setSearch(true)
+			setHandleSearch(false)
+		}
+		else if(searchButton) {
+			setHandleSearch(true)
+			setSearchButton(false)
+		}
+		else if(enterSentence) {
+			setSearch(true)
+			setEnterSentence(false)
+		}
+		else if(enterSentenceButton) {
+			setEnterSentence(true)
+			setEnterSentenceButton(false)
+			setBackButtonClicked(true)
+		}
+		else {
+			setShowAllButton(true)
+			setShowAll(false)
+			setBackButtonClicked(true)
+		}
+	}
+
 	return(
 		<div className="home">
+			{
+				defaultChoice ? null : <div onClick={() => backButton()} className="home-arrow-button">
+					<ArrowBack className='arrow-button' />
+				</div>
+			}
 			<div id="home-form" style={{ padding: searchButton || showAll || enterSentenceButton || byLetterContinue ? "0" : "20px", width: searchButton || enterSentenceButton || showAll || byLetterContinue || byLetter ? "auto" : "480px" }}>
 				{
 					defaultChoice ? <Grow in>{defaultChoices()}</Grow>
