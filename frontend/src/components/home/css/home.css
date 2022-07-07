@@ -30,6 +30,7 @@
       -ms-flex-align: center;
           align-items: center;
   border: 1px solid #353535;
+  position: relative;
 }
 
 .home .home-arrow-button .arrow-button {
